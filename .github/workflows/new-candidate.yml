@@ -8,12 +8,12 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   run_automation:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
     
     steps:
       - name: Create fork
