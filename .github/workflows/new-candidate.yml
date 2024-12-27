@@ -1,0 +1,25 @@
+name: New Candidate
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+    inputs:
+      candidate_username:
+        description: 'GitHub username of the candidate'
+        required: true
+        type: string
+
+jobs:
+  run_automation:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Create fork
+        run: "gh api --method POST -H \"Accept: application/vnd.github+json\" \
+              /repos/$OWNER/$REPO/forks -f \"name=$REPO-${{ github.event.inputs.candidate_username }}\""
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
